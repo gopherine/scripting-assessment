@@ -54,6 +54,7 @@ export interface NodeBody {
 //     "id": 1
 // }'
   export const GetLastBlock = async (): Promise<number>=>{
+    try {
     // fetch the block from the node
     const rol= await fetch("https://ethereum.publicnode.com",{method: "POST",body: JSON.stringify(getLastBlock) });
     
@@ -64,7 +65,12 @@ export interface NodeBody {
 
     // last block as hexa
     const nodeBody =await rol.json() as NodeBody;
+    console.log(nodeBody)
 
     // convert hexa to number
     return Number(nodeBody.result.number);
+  } catch (error) {
+    console.log("Error fetching latest block num: ", error)
+    throw error
+  }
   }
